@@ -172,6 +172,16 @@ void loop() {
 }
 
 #Ejercicio 6
+void setup()
+{
+  pinMode(0, INPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  Serial.println(analogRead(0));
+}
 
 #Ejercicio 7
 const int echo=11;
