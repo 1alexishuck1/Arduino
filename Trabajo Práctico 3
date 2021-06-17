@@ -1,0 +1,154 @@
+#Ejercicio 1
+
+#include <Servo.h>
+int n;
+Servo ServoMotor; 
+void setup()
+{
+  ServoMotor.attach(13);
+}
+
+void loop()
+{
+  n = random(0, 180);
+  
+  ServoMotor.write(n);
+  delay(1000); 
+}
+
+#Ejercicio 2
+
+#include <Servo.h>
+Servo servo;
+
+const int pot = A1;
+int giro;
+
+void setup()
+{
+  servo.attach(8);
+}
+
+void loop()
+{
+  giro=analogRead(pot)/5;
+  servo.write(giro);
+}
+
+
+#Ejercicio 3
+
+#include <Servo.h>
+
+int n;
+int cont;
+Servo ServoMotor; 
+
+void setup()
+{
+  ServoMotor.attach(13);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  n = random(0, 180);
+  ServoMotor.write(n);
+  delay(1000);
+  cont = cont + 1;
+  if (cont == 3){
+    Serial.println(n);
+    ServoMotor.write(0);
+    delay(2000);
+    ServoMotor.write(180);
+    delay(2000);
+    ServoMotor.write(90);
+    delay(2000);
+  }
+}
+
+#Ejercicio 6
+
+const int echo = 10;
+const int trig = 9;
+const int buzz = 13;
+
+void setup()
+{
+  pinMode(buzz, OUTPUT);
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
+}
+
+void loop()
+{
+  digitalWrite(trig, LOW);
+  delayMicroseconds(5);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+
+  int duration = pulseIn(echo, HIGH);
+  double cm= duration*0.034/2;
+  
+  if ((cm > 20) && (cm < 30)){
+    analogWrite(buzz, HIGH);
+    tone(buzz, 5678,100);
+    delay(1500);
+    analogWrite(buzz, LOW);
+  }
+  else if ((cm > 12) && (cm < 20)){
+    analogWrite(buzz, HIGH);
+    tone(buzz, 4678,120);
+    delay(1000);
+    analogWrite(buzz, LOW);
+  }
+  else if ((cm > 6) && (cm < 12)){
+    analogWrite(buzz, HIGH);
+    tone(buzz, 3678,220);
+    delay(500);
+    analogWrite(buzz, LOW);
+  }
+  else if ((cm > 2) && (cm < 6)){
+    analogWrite(buzz, HIGH);
+    tone(buzz, 2678,120);
+    delay(250);
+    analogWrite(buzz, LOW);
+  }
+  else{
+  	analogWrite(buzz, LOW);
+  }
+  
+}
+
+#Ejercicio 7
+
+#include <LiquidCrystal.h>
+
+  const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+  LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+  const int echo=9;
+  const int trig=10;
+  int duration;
+void setup() {
+  lcd.begin(16,2);
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
+  lcd.print("distancia: ");
+}
+
+void loop() {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(5);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+
+  int duration = pulseIn(echo, HIGH);
+
+  double distancia= duration*0.034/2;
+  lcd.setCursor(7, 1);
+  lcd.print(distancia);
+  lcd.setCursor(14, 1);
+  lcd.print("cm");
+}
